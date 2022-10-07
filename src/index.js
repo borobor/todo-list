@@ -1,11 +1,19 @@
 import './style.css';
-import pic from './img/wpicon.png'
 
 const content = document.getElementById('content');
+const header = document.createElement('div');
+const headerLogo = document.createElement('div');
+const headerButton = document.createElement('button');
 
-content.textContent = 'Hello Borna';
+header.classList.add('header');
+headerLogo.classList.add('header-logo');
+headerButton.classList.add('header-button');
 
-const icon = new Image();
-icon.src = pic;
+headerLogo.textContent = 'TodoMist';
+headerButton.textContent = 'Add task';
 
-content.appendChild(icon);
+header.appendChild(headerLogo);
+header.appendChild(headerButton);
+content.appendChild(header);
+
+headerButton.addEventListener('click', showTaskForm);
