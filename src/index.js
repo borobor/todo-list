@@ -1,5 +1,5 @@
 import './style.css';
-import showModal from './taskForm.js';
+import { createModal, submitNewTask, hideModal } from './taskForm.js';
 
 const content = document.getElementById('content');
 const header = document.createElement('div');
@@ -20,3 +20,14 @@ content.appendChild(header);
 
 const modalBtn = document.getElementById('modalBtn');
 modalBtn.addEventListener('click', showModal);
+
+function showModal() {
+  createModal();
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.addEventListener('click', addNewTask);
+}
+
+function addNewTask() {
+  hideModal();
+  console.log(submitNewTask());
+}
