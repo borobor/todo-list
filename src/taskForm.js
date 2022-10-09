@@ -4,7 +4,7 @@ function createModal() {
   const priorityOptions = [
     'Urgent',
     'Keep it in mind',
-    'Whenever'
+    'Whenever',
   ];
   const modal = document.createElement('div');
   modal.classList.add('modal');
@@ -59,22 +59,17 @@ function createModal() {
 
   window.addEventListener('click', ({ target }) => {
     if (target == myModal) {
-      myModal.style.display = 'none';
+      myModal.parentNode.removeChild(myModal);
     }
   })
 
   const priorityBtn = document.getElementById('priorityBtn');
+
+  let count = 0;
   priorityBtn.addEventListener('click', ({ target }) => {
-    target.textContent = priorityOptions[0];
-    // let index = 0;
-    // if (target.textContent != 'Set priority') {
-    //   if (index > priorityOptions.length - 1) index = 1;
-    //   target.textContent = priorityOptions[index];
-    //   index++;
-    // }
-    // if (target.textContent == 'Set priority') {
-    //   target.textContent = priorityOptions[0];
-    // }
+    if (count > priorityOptions.length - 1) count = 0;
+    target.textContent = priorityOptions[count];
+    count++;
   })
 }
 
@@ -92,23 +87,11 @@ function submitNewTask() {
   const date = taskDate.value;
   const priority = taskPriority.textContent;
 
-  const newTask = new Task({title, description, date, priority});
+  const newTask = {title, description, date, priority};
   return newTask;
 }
 
 function hideModal() {
   const myModal = document.getElementById('modal');
-  myModal.style.display = 'none';
-}
-
-function Task({
-  title,
-  description,
-  date,
-  priority,
-}) {
-  this.title = title;
-  this.description = description;
-  this.date = date;
-  this.priority = priority;
+  myModal.parentNode.removeChild(myModal);
 }
