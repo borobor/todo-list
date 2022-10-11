@@ -51,22 +51,18 @@ function createModal() {
   modalBox.appendChild(modalContent);
 
   modal.appendChild(modalBox);
-
   content.appendChild(modal);
 
-  const myModal = document.getElementById('modal');
-  myModal.style.display = 'flex';
+  modal.style.display = 'flex';
 
   window.addEventListener('click', ({ target }) => {
-    if (target == myModal) {
-      myModal.parentNode.removeChild(myModal);
+    if (target == modal) {
+      modal.parentNode.removeChild(modal);
     }
   })
 
-  const priorityBtn = document.getElementById('priorityBtn');
-
   let count = 0;
-  priorityBtn.addEventListener('click', ({ target }) => {
+  priority.addEventListener('click', ({ target }) => {
     if (count > priorityOptions.length - 1) count = 0;
     target.textContent = priorityOptions[count];
     count++;
@@ -92,6 +88,6 @@ function submitNewTask() {
 }
 
 function hideModal() {
-  const myModal = document.getElementById('modal');
-  myModal.parentNode.removeChild(myModal);
+  const modal = document.getElementById('modal');
+  modal.parentNode.removeChild(modal);
 }
