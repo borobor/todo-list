@@ -1,7 +1,15 @@
 import './style.css';
 import { createModal, submitNewTask, hideModal } from './taskForm.js';
 
-const createPage = (function() {
+const myTasksObject = (function() {
+  const myTasks = JSON.parse(localStorage.getItem('myTasks')) || {};
+  setInterval(() => {
+    localStorage.setItem('myTasks', JSON.stringify(myTasks));
+  }, 200);
+  return myTasks;
+})();
+
+const createPage = function() {
   const content = document.getElementById('content');
   const header = document.createElement('div');
   const headerLogo = document.createElement('div');
@@ -19,7 +27,16 @@ const createPage = (function() {
   content.appendChild(header);
   
   headerButton.addEventListener('click', showModal);
-})();
+
+  const myTasks = myTasksObject;
+  if (Object.keys(myTasks).length) {
+    Object.values(myTasks).forEach(task => {
+      displayTask(task);
+    })
+  }
+};
+
+createPage();
 
 function showModal() {
   createModal();
@@ -50,8 +67,6 @@ function Task({
   this.finished = finished;
 }
 
-const myTasks = {};
-
 function displayTask(taskData) {
   const taskItem = document.createElement('div');
   taskItem.classList.add('task');
@@ -80,6 +95,7 @@ function displayTask(taskData) {
 
   content.appendChild(taskItem);
 
+  const myTasks = myTasksObject;
   myTasks[taskData.id] = taskData;
 }
 
@@ -87,10 +103,12 @@ function deleteTask({ target }) {
   const parentTask = target.closest('.task');
   parentTask.parentNode.removeChild(parentTask);
 
+  const myTasks = myTasksObject;
   delete myTasks[getTaskId(parentTask)];
 }
 
 function getTaskId(node) {
+  const myTasks = myTasksObject;
   const [id] = Object.entries(myTasks).find(([id, { element }]) => {
     return element === node;
   })
@@ -98,6 +116,7 @@ function getTaskId(node) {
 }
 
 function toggleTaskDone({ target }) {
+  const myTasks = myTasksObject;
   const parentTask = target.closest('.task');
   const children = parentTask.children;
   if (target.checked) {
@@ -112,5 +131,4 @@ function toggleTaskDone({ target }) {
       myTasks[getTaskId(parentTask)].finished = false;
     })
   }
-  console.log(myTasks);
 }
