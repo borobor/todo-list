@@ -73,7 +73,8 @@ function displayTask(taskData) {
   taskData.element = taskItem;
   const taskDoneBox = document.createElement('input');
   taskDoneBox.setAttribute('type', 'checkbox');
-  taskDoneBox.addEventListener('click', toggleTaskDone);
+  taskDoneBox.classList.add('task-box');
+  taskDoneBox.addEventListener('click', onClickTaskDone);
   taskItem.appendChild(taskDoneBox);
   Object.entries(taskData).forEach(([key, value]) => {
     if (key === 'element') return;
@@ -85,6 +86,10 @@ function displayTask(taskData) {
     taskElement.textContent = value;
     taskItem.appendChild(taskElement);
   })
+
+  if (taskData.finished) {
+    toggleTaskDone(taskItem);
+  }
 
   const deleteBtn = document.createElement('button');
   deleteBtn.textContent = '❌';
@@ -115,20 +120,26 @@ function getTaskId(node) {
   return id;
 }
 
-function toggleTaskDone({ target }) {
+function onClickTaskDone({ target }) {
   const myTasks = myTasksObject;
   const parentTask = target.closest('.task');
-  const children = parentTask.children;
-  if (target.checked) {
-    [...children].forEach(child => {
-      child.classList.add('checked');
-      myTasks[getTaskId(parentTask)].finished = true;
-    })
+  const taskId = getTaskId(parentTask);
+  const isDone = myTasks[taskId].finished;
+  myTasks[taskId].finished = !isDone;
+  toggleTaskDone(parentTask);
+}
+
+function toggleTaskDone(parentTask) {
+  const myTasks = myTasksObject;
+  const taskId = getTaskId(parentTask);
+  const isDone = myTasks[taskId].finished;
+  const checkbox = parentTask.querySelector('.task-box');
+  if (isDone) {
+    parentTask.classList.add('checked');
+    checkbox.checked = true;
   }
-  if (!target.checked) {
-    [...children].forEach(child => {
-      child.classList.remove('checked');
-      myTasks[getTaskId(parentTask)].finished = false;
-    })
+  if (!isDone) {
+    parentTask.classList.remove('checked');
+    checkbox.checked = false;
   }
 }
