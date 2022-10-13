@@ -88,7 +88,8 @@ function displayTask(taskData) {
   })
 
   if (taskData.finished) {
-    toggleTaskDone(taskItem);
+    taskItem.classList.add('checked');
+    taskDoneBox.checked = true;
   }
 
   const deleteBtn = document.createElement('button');
@@ -121,25 +122,14 @@ function getTaskId(node) {
 }
 
 function onClickTaskDone({ target }) {
-  const myTasks = myTasksObject;
   const parentTask = target.closest('.task');
+  const myTasks = myTasksObject;
   const taskId = getTaskId(parentTask);
   const isDone = myTasks[taskId].finished;
   myTasks[taskId].finished = !isDone;
-  toggleTaskDone(parentTask);
-}
+  parentTask.classList.remove('checked');
 
-function toggleTaskDone(parentTask) {
-  const myTasks = myTasksObject;
-  const taskId = getTaskId(parentTask);
-  const isDone = myTasks[taskId].finished;
-  const checkbox = parentTask.querySelector('.task-box');
-  if (isDone) {
-    parentTask.classList.add('checked');
-    checkbox.checked = true;
-  }
   if (!isDone) {
-    parentTask.classList.remove('checked');
-    checkbox.checked = false;
+    parentTask.classList.add('checked');
   }
 }
