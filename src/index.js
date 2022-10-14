@@ -60,11 +60,11 @@ function Task({
 }) {
   this.title = title;
   this.description = description;
-  this.priority = priority;
   this.date = date;
+  this.finished = finished;
   this.id = id || Math.floor(Math.random()*1000)
   this.element = element;
-  this.finished = finished;
+  this.priority = priority;
 }
 
 function displayTask(taskData) {

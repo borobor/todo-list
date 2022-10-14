@@ -102,6 +102,23 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+.task > * {
+  padding: 1rem;
+}
+
+.task-title {
+  margin-right: auto;
+}
+
+.task-date {
+  color: var(--gradient-color-1);
+}
+
+.delete-btn {
+  border-style: none;
+  background-color: transparent;
+}
+
 .task.checked > .task-title {
   text-decoration: line-through;
 }
