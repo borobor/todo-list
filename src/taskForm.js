@@ -1,4 +1,4 @@
-export { createModal, submitNewTask, hideModal };
+export { createModal, submitNewTask, hideModal, shakeElement };
 
 function createModal() {
   const priorityOptions = [
@@ -56,7 +56,7 @@ function createModal() {
   modal.style.display = 'flex';
 
   window.addEventListener('click', ({ target }) => {
-    if (target == modal) {
+    if (target === modal) {
       modal.parentNode.removeChild(modal);
     }
   })
@@ -67,18 +67,21 @@ function createModal() {
     target.textContent = priorityOptions[count];
     count++;
   })
+  title.focus();
 }
 
 function submitNewTask() {
   
   const taskTitle = document.getElementById('title');
-  //task title has to be required!!! other inputs are optional !!!
-  //fix that ASAP!
   const taskDescription = document.getElementById('description');
   const taskDate = document.getElementById('date');
   const taskPriority = document.getElementById('priorityBtn');
   
   const title = taskTitle.value;
+  if (!title) {
+    shakeElement(taskTitle);
+    return;
+  }
   const description = taskDescription.value;
   const date = taskDate.value;
   const priority = taskPriority.textContent;
@@ -90,4 +93,11 @@ function submitNewTask() {
 function hideModal() {
   const modal = document.getElementById('modal');
   modal.parentNode.removeChild(modal);
+}
+
+function shakeElement(node) {
+  node.classList.add('shake');
+  setTimeout(() => {
+    node.classList.remove('shake');
+  }, 300);
 }

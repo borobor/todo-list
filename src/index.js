@@ -1,5 +1,5 @@
 import './style.css';
-import { createModal, submitNewTask, hideModal } from './taskForm.js';
+import { createModal, submitNewTask, hideModal, shakeElement } from './taskForm.js';
 
 const myTasksObject = (function() {
   const myTasks = JSON.parse(localStorage.getItem('myTasks')) || {};
@@ -81,6 +81,7 @@ function displayTask(taskData) {
     if (key === 'id') return;
     if (key === 'description') return;
     if (key === 'finished') return;
+    if (value === 'Set priority') return;
     const taskElement = document.createElement('p');
     taskElement.classList.add(`task-${key}`);
     taskElement.textContent = value;
@@ -106,11 +107,18 @@ function displayTask(taskData) {
 }
 
 function deleteTask({ target }) {
-  const parentTask = target.closest('.task');
-  parentTask.parentNode.removeChild(parentTask);
-
   const myTasks = myTasksObject;
-  delete myTasks[getTaskId(parentTask)];
+  const parentTask = target.closest('.task');
+  const taskObject = getTaskId(parentTask);
+  
+  if (myTasks[taskObject].finished === false) {
+    const checkbox = parentTask.querySelector('.task-box');
+    shakeElement(checkbox);
+    return;
+  }
+
+  parentTask.parentNode.removeChild(parentTask);
+  delete myTasks[taskObject];
 }
 
 function getTaskId(node) {
@@ -124,7 +132,7 @@ function getTaskId(node) {
 function onClickTaskDone({ target }) {
   const parentTask = target.closest('.task');
   const myTasks = myTasksObject;
-  const taskId = getTaskId(parentTask);
+    const taskId = getTaskId(parentTask);
   const isDone = myTasks[taskId].finished;
   myTasks[taskId].finished = !isDone;
   parentTask.classList.remove('checked');

@@ -109,3 +109,13 @@ body {
 .task.checked > .task-priority {
   display: none;
 }
+
+.shake {
+  animation: shake 0.3s;
+}
+
+@keyframes shake {
+  25% { transform: translateX(3px)}
+  50% { transform: translateX(-3px)}
+  75% { transform: translateX(3px)}
+}
