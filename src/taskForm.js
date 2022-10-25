@@ -71,7 +71,6 @@ function createModal() {
 }
 
 function submitNewTask() {
-  
   const taskTitle = document.getElementById('title');
   const taskDescription = document.getElementById('description');
   const taskDate = document.getElementById('date');
